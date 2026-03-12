@@ -27,8 +27,6 @@ app.use(cors({
   credentials: true,
 }));
 
-FRONTEND_URL = https://rabbit-ai-nine.vercel.app
-
 app.use(express.json({ limit: "1mb" }));
 applySecurityMiddleware(app);
 
