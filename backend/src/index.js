@@ -12,7 +12,23 @@ const PORT = process.env.PORT || 4000;
 
 // ── Core Middleware ────────────────────────────────────────────────────────────
 app.use(helmet());
-app.use(cors({ origin: process.env.FRONTEND_URL || "*" }));
+app.use(cors({
+  origin: (origin, callback) => {
+    const allowed = [
+      process.env.FRONTEND_URL,
+      "http://localhost:3000",
+    ].filter(Boolean);
+    if (!origin || allowed.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error(`CORS blocked: ${origin}`));
+    }
+  },
+  credentials: true,
+}));
+
+FRONTEND_URL = https://rabbit-ai-nine.vercel.app
+
 app.use(express.json({ limit: "1mb" }));
 applySecurityMiddleware(app);
 
